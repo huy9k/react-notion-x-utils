@@ -1,7 +1,7 @@
 {
   "name": "react-notion-x-utils",
   "types": "index.d.ts",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Handy utilities for react-notion-x",
   "main": "index.js",
   "scripts": {
@@ -18,6 +18,6 @@
   },
   "homepage": "https://github.com/huydpham/react-notion-x-utils#readme",
   "dependencies": {
-    "memfs": "^4.7.0"
+    "memfs": "^4.17.0"
   }
 }
