@@ -53,11 +53,19 @@ function getExtractionTools(recordMap) {
   const blockIdsArray =
     recordMap.collection_query[dbId]?.[dbViewId]?.collection_group_results
       ?.blockIds || [];
-  const blockArray = blockIdsArray.map((id) => recordMap.block[id].value);
+
+  // Notion API now wraps block entries: { value: { value: {...block}, role } }
+  // This unwraps either shape transparently
+  const resolveBlock = (entry) => (entry?.value?.role ? entry.value.value : entry?.value);
+
+  const blockArray = blockIdsArray.map((id) => resolveBlock(recordMap.block[id]));
 
   // Function
   function getKeyByName(name) {
-    const schema = recordMap.collection[dbId].value.schema;
+    // Same double-nesting fix for collection schema
+    const collectionEntry = recordMap.collection[dbId];
+    const collectionValue = collectionEntry?.value?.role ? collectionEntry.value.value : collectionEntry?.value;
+    const schema = collectionValue?.schema;
     let k = null;
     for (const key in schema) {
       if (schema.hasOwnProperty(key) && schema[key].name === name) {
